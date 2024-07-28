@@ -1,18 +1,16 @@
 package com.company.oop.cosmetics.models;
 
-import com.company.oop.cosmetics.exceptions.category.InvalidArgumentException;
 import com.company.oop.cosmetics.models.contracts.Product;
 import com.company.oop.cosmetics.models.contracts.Category;
+import com.company.oop.cosmetics.validator.ConstraintValidator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryImpl implements Category {
-
-    public static final int MIN_SIZE = 3;
-    public static final int MAX_SIZE = 10;
     private String name;
     private final List<Product> products;
+    private final ConstraintValidator validator = new ConstraintValidator();
 
     public CategoryImpl(String name) {
         setName(name);
@@ -24,14 +22,8 @@ public class CategoryImpl implements Category {
     }
 
     private void setName(String name) {
-        validateName(name);
+        validator.validateName(name);
         this.name = name;
-    }
-
-    private void validateName(String name) {
-        if (name.length() < MIN_SIZE || name.length() > MAX_SIZE) {
-            throw new InvalidArgumentException("Name should be between " + MIN_SIZE + " and " + MAX_SIZE + " symbols.");
-        }
     }
 
     public List<Product> getProducts() {
@@ -64,5 +56,4 @@ public class CategoryImpl implements Category {
 
         return strBuilder.toString();
     }
-
 }

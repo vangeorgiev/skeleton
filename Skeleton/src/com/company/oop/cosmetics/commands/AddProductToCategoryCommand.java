@@ -4,6 +4,7 @@ import com.company.oop.cosmetics.commands.contracts.Command;
 import com.company.oop.cosmetics.core.contracts.ProductRepository;
 import com.company.oop.cosmetics.models.contracts.Category;
 import com.company.oop.cosmetics.models.contracts.Product;
+import com.company.oop.cosmetics.validator.ConstraintValidator;
 
 import java.util.List;
 
@@ -13,13 +14,15 @@ public class AddProductToCategoryCommand implements Command {
 
     private final ProductRepository productRepository;
 
+    private final ConstraintValidator validator = new ConstraintValidator();
+
     public AddProductToCategoryCommand(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
     @Override
     public String execute(List<String> parameters) {
-        //TODO Validate parameters count
+        validator.validateParameter(parameters, 2, "AddProductToCategory");
 
         String categoryNameToAdd = parameters.get(0);
         String productNameToAdd = parameters.get(1);

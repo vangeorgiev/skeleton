@@ -33,7 +33,11 @@ public final class EngineImpl implements Engine {
             if (inputLine.equalsIgnoreCase(TERMINATION_COMMAND)) {
                 break;
             }
-            processCommand(inputLine);
+            try {
+                processCommand(inputLine);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 

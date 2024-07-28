@@ -1,7 +1,6 @@
 package com.company.oop.cosmetics.core;
 
 import com.company.oop.cosmetics.core.contracts.ProductRepository;
-import com.company.oop.cosmetics.exceptions.category.InvalidArgumentException;
 import com.company.oop.cosmetics.models.CategoryImpl;
 import com.company.oop.cosmetics.models.GenderType;
 import com.company.oop.cosmetics.models.ProductImpl;
@@ -36,9 +35,13 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product findProductByName(String productName) {
-        // TODO: find a product with the given product name
+        for (Product product : getProducts()) {
+            if (product.getName().equalsIgnoreCase(productName)) {
+                return product;
+            }
+        }
 
-        return null;
+        throw new IllegalArgumentException(String.format(PRODUCT_DOES_NOT_EXIST, productName));
     }
 
     @Override
@@ -54,7 +57,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public void createCategory(String categoryName) {
-        validateCategoryName(categoryName);
         this.categories.add(new CategoryImpl(categoryName));
     }
 
@@ -89,14 +91,5 @@ public class ProductRepositoryImpl implements ProductRepository {
         }
 
         return exists;
-    }
-
-
-    private void validateCategoryName(String categoryName) {
-        for (Category category : categories) {
-            if (category.getName().equals(categoryName)) {
-                throw new InvalidArgumentException("Name should be unique in the system.\n");
-            }
-        }
     }
 }

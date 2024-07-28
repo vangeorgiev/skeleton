@@ -1,6 +1,7 @@
 package com.company.oop.cosmetics.models;
 
 import com.company.oop.cosmetics.models.contracts.Product;
+import com.company.oop.cosmetics.validator.ConstraintValidator;
 
 public class ProductImpl implements Product {
 
@@ -8,6 +9,7 @@ public class ProductImpl implements Product {
     private String brand;
     private double price;
     private final GenderType gender;
+    private final ConstraintValidator validator = new ConstraintValidator();
 
     public ProductImpl(String name, String brand, double price, GenderType gender) {
         setName(name);
@@ -21,7 +23,6 @@ public class ProductImpl implements Product {
     }
 
     private void setName(String name) {
-        //TODO Validate name
         this.name = name;
     }
 
@@ -30,7 +31,6 @@ public class ProductImpl implements Product {
     }
 
     private void setBrand(String brand) {
-        //TODO Validate brand
         this.brand = brand;
     }
 
@@ -39,7 +39,7 @@ public class ProductImpl implements Product {
     }
 
     private void setPrice(double price) {
-        //TODO Validate price
+        validator.validatePrice(price);
         this.price = price;
     }
 
@@ -58,5 +58,4 @@ public class ProductImpl implements Product {
                 price,
                 gender);
     }
-
 }
